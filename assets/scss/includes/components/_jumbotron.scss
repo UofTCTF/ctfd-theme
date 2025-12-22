@@ -3,7 +3,7 @@
 
 // Move down content because we have a fixed navbar that is 3.5rem tall
 main {
-  padding-top: 4.5rem;
+  padding-top: 3.5rem;
 }
 
 .jumbotron {
@@ -13,6 +13,7 @@ main {
 
   //background-color: var(--bs-dark);
   //background: linear-gradient(rgba(255,255,255,0.1),rgba(255,255,255,0.1)), url($background) !important;
+  background: rgba(150, 150, 150, 0.3);
   color: var(--bs-white);
 }
 

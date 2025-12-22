@@ -1,8 +1,13 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-transparent custom-navbar" style="
+<nav class="navbar navbar-expand-md navbar-dark custom-navbar" style="
 backdrop-filter: blur(3px);">
   <div class="container">
-    <a href="{{ url_for('views.static_html', route='/') }}" class="navbar-brand">
-        {{ Configs.ctf_name }}
+    <a href="{{ url_for('views.static_html', route='/') }}" class="custom-navbar-brand">
+      {% if Configs.ctf_logo %}
+      <img class="img-responsive ctf_logo" src="{{ url_for('views.files', path=Configs.ctf_logo) }}" height="25" alt="{{ Configs.ctf_name }}">
+      <p>{{ Configs.ctf_name }}</p>
+      {% else %}
+          {{ Configs.ctf_name }}
+      {% endif %}
     </a>
 
     <button
