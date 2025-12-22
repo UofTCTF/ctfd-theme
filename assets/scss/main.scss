@@ -1,7 +1,7 @@
 @use "bootstrap/scss/bootstrap" as * with (
   $info: #5c728f,
-  $body-color-dark: #fff,
-  $navbar-dark-color: #fff,
+  $body-color-dark: #ffffff,
+  $navbar-dark-color: #ffffff,
 );
 
 @use "includes/components/table";
@@ -9,6 +9,7 @@
 @use "includes/components/challenge";
 @use "includes/components/sticky-footer";
 @use "includes/components/graphs";
+@use "includes/components/custom-navbar";
 
 @use "includes/utils/fonts";
 @use "includes/utils/opacity";
@@ -31,9 +32,6 @@ body{
   animated-cursor 600ms steps(29, end) infinite;
 }
 
-.jumbotron{
-  background: linear-gradient(rgba(255,255,255,0.1),rgba(255,255,255,0.1)), url($background) !important;
-}
 
 h1,
 h2 {

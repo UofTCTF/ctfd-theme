@@ -14,6 +14,7 @@ export default defineConfig({
   build: {
     manifest: true,
     outDir: "static",
+    emptyOutDir: true,
     rollupOptions: {
       plugins: [
         copy({
@@ -32,6 +33,14 @@ export default defineConfig({
               dest: "static/webfonts",
             },
             {
+              src: "./node_modules/@fontsource/roboto/files/**/*400*-normal*",
+              dest: "static/webfonts",
+            },
+            {
+              src: "./node_modules/@fontsource/roboto/files/**/*700*-normal*",
+              dest: "static/webfonts",
+            },
+            {
               src: "./node_modules/@fontsource/raleway/files/**/*400*-normal*",
               dest: "static/webfonts",
             },
@@ -41,9 +50,13 @@ export default defineConfig({
             },
           ],
           hook: "writeBundle",
+          overwrite: true,
         }),
       ],
       output: {
+        entryFileNames: `assets/[name].js`,
+        chunkFileNames: `assets/[name].js`,
+        assetFileNames: `assets/[name].[ext]`,
         manualChunks: {
           echarts: ["echarts", "zrender"],
         },
