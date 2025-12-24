@@ -8,6 +8,7 @@
       </h1>
     </div>
   </div>
+  <div>
 
   <div class="container">
     <div class="row">
@@ -34,19 +35,24 @@
         </div>
       </div>
 
-      <div x-show="loaded">
+      <div x-show="loaded" class="custom-challenges-list">
         <template x-for="(category, idx) in getCategories()" :key="idx">
-          <div class="pt-5">
-            <div class="category-header mb-3">
+          <div class="custom-category-challenge-box">
+            <div class="category-header mb-3 d-flex align-items-center">
+              <img 
+                :src="`/themes/ctfd-theme/static/img/${encodeURIComponent(category)}.png`"
+                :alt="category + ' icon'"
+                style="height:2.5rem;width:auto;margin-right:1rem;"
+              >
               <h3 x-text="category"></h3>
             </div>
 
             <div class="category-challenges d-flex flex-column">
-              <div class="challenges-row row">
+              <div class="challenges-row">
                 <template x-for="(c, idx) in getChallenges(category)" :key="c.id">
-                  <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="">
                     <button
-                        class="btn btn-dark w-100 text-truncate my-3 "
+                        class="btn btn-dark custom-category-challenge-button text-truncate my-3 "
                         :class="()=>{
                           let classes = '';
                           if (c.solved_by_me){
@@ -67,14 +73,14 @@
                     >
                       <div class="challenge-inner mt-2">
                         <p x-text="c.name"></p>
-                        <div class="d-flex justify-content-center gap-2">
-                          <div class="d-flex flex-column">
-                            <span class="fa fa-user"></span>
-                            <p x-text="c.solves"></p>
+                        <div class="d-flex justify-content-center gap-4">
+                          <div class="d-flex flex-row">
+                            <span class="fa fa-user mx-1 custom-category-challenge-button-icon"></span>
+                            <p x-text="c.solves" class="mx-1"></p>
                           </div>
-                          <div class="d-flex flex-column">
-                            <span class="fa fa-coins"></span>
-                            <span x-text="c.value"></span>
+                          <div class="d-flex flex-row">
+                            <span class="fa fa-coins mx-1 custom-category-challenge-button-icon"></span>
+                            <span x-text="c.value" class="mx-1"></span>
                           </div>
                         </div>
                       </div>
@@ -82,6 +88,7 @@
                   </div>
 
                 </template>
+
               </div>
             </div>
           </div>
