@@ -1,20 +1,18 @@
-.custom-challenges-list {
+ .custom-challenges-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); // 3 equal columns
-  gap: 5rem; 
-  margin: 0 auto;
-  margin-left: -5rem; 
+  grid-template-columns: repeat(3, minmax(0, 2fr)); // Use minmax for flexible columns
+  gap: 2rem; 
+  /* Removed margin: 0 auto; from here */
   max-width: 90rem; 
   padding: 0 2rem; 
+  justify-content: center; // Center the grid items within the container
+  width: fit-content; // Shrink the container to fit its content
+  margin: 0 auto; // Center the container itself
   
-  @media only screen and (max-width: 1024px) {
-    grid-template-columns: repeat(2, 1fr); 
-    margin-left: 0; 
-  }
   
   @media only screen and (max-width: 784px) {
     grid-template-columns: 1fr; 
-    margin-left: 0; 
+    /* Removed margin-left: 0; */
   }
 }
 

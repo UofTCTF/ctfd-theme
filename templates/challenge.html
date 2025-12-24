@@ -1,4 +1,4 @@
-<div :class="getStyles()" class="modal-dialog modal-xl modal-dialog-scrollable" role="document" x-data="Challenge" x-init="id = {{ challenge.id }}">
+<div :class="getStyles()" class="modal-dialog modal-xl modal-dialog-scrollable" role="document" x-data="Challenge" x-init="id = {{ challenge.id }}; await showSolves()">
   <div class="modal-content">
     <div class="modal-header">
       <div class="d-flex justify-content-center gap-1">
@@ -128,7 +128,7 @@
             </div>
           </div>
 
-          <div role="tabpanel" class="tab-pane" id="solves">
+          <div role="tabpanel" class="" id="solves">
             <div class="row">
               <div class="col-md-12">
                 <table class="table">
