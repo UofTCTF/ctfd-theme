@@ -36,39 +36,21 @@
       </div>
 
       <div x-show="loaded" class="custom-challenges-list">
+        <hr class="custom-category-hr"></hr>
         <template x-for="(category, idx) in getCategories()" :key="idx">
+          <div>
+
           <div class="custom-category-challenge-box">
-            <div class="category-header mb-3 d-flex align-items-center">
-              <img 
-                :src="`/themes/ctfd-theme/static/img/${encodeURIComponent(category)}.png`"
-                :alt="category + ' icon'"
-                style="height:2.5rem;width:auto;margin-right:1rem;"
-              >
+            <div class="custom-category-header mb-3 d-flex align-items-center">
               <h3 x-text="category"></h3>
             </div>
-
-            <div class="category-challenges d-flex flex-column">
-              <div class="challenges-row">
+            <vl class="custom-category-vl"></vl/>
+            <div class="category-challenges custom-category-challenges d-flex flex-column">
+              <div class="custom-challenges-row">
                 <template x-for="(c, idx) in getChallenges(category)" :key="c.id">
                   <div class="">
                     <button
                         class="btn btn-dark custom-category-challenge-button text-truncate my-3 "
-                        :class="()=>{
-                          let classes = '';
-                          if (c.solved_by_me){
-                            classes += 'challenge-solved'
-                          }
-                          if (c.solves <= 5){
-                            classes += ' border-danger'
-                          } else if (c.solves <= 10){
-                            classes += ' border-warning'
-                          } else if (c.solves <= 15){
-                            classes += ' border-primary'
-                          } else {
-                            classes += ' border-success'
-                          }
-                          return classes
-                        }"
                         :value="c.id" @click="loadChallenge(c.id)"
                     >
                       <div class="challenge-inner mt-2">
@@ -91,6 +73,8 @@
 
               </div>
             </div>
+          </div>
+          <hr class="custom-category-hr"></hr>
           </div>
         </template>
       </div>
