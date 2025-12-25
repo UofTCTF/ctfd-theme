@@ -51,6 +51,13 @@
                   <div class="">
                     <button
                         class="btn btn-dark custom-category-challenge-button text-truncate my-3 "
+                        :class="()=>{
+                          let classes = '';
+                          if (c.solved_by_me){
+                            classes += 'challenge-solved'
+                          }
+                          return classes
+                        }"
                         :value="c.id" @click="loadChallenge(c.id)"
                     >
                       <div class="challenge-inner mt-2">

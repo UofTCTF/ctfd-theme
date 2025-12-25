@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 import CTFd from "./index";
 
-import { Modal, Tab } from "bootstrap";
+import { Modal, Tab, Tooltip } from "bootstrap";
 import highlight from "./theme/highlight";
 
 function addTargetBlank(html) {
@@ -31,6 +31,13 @@ Alpine.data("Hint", () => ({
   async showHint(event) {
     if (event.target.open) {
       let response = await CTFd.pages.challenge.loadHint(this.id);
+
+      // Hint has some kind of prerequisite or access prevention
+      if (response.errors) {
+        event.target.open = false;
+        CTFd._functions.challenge.displayUnlockError(response);
+        return;
+      }
       let hint = response.data;
       if (hint.content) {
         this.html = addTargetBlank(hint.html);
@@ -61,7 +68,20 @@ Alpine.data("Challenge", () => ({
   submission: "",
   tab: null,
   solves: [],
+  submissions: [],
+  solution: null,
   response: null,
+  share_url: null,
+  max_attempts: 0,
+  attempts: 0,
+  ratingValue: 0,
+  selectedRating: 0,
+  ratingReview: "",
+  ratingSubmitted: false,
+
+  async init() {
+    highlight();
+  },
 
   getStyles() {
     let styles = {
@@ -98,24 +118,6 @@ Alpine.data("Challenge", () => ({
     new Tab(this.$el).show();
   },
 
-  async showThenAnimate(elm){
-    new Tab(this.$el).show()
-    elm.scrollIntoView({behavior:"smooth"});
-    const keyframes = [
-      { transform: 'translateX(-100%)' },
-      { transform: 'translateX(0%)' }
-    ];
-
-    const options = {
-      duration: 1000,
-      iterations: 1,
-      fill: 'forwards',
-      easing: 'ease-out'
-    };
-
-    elm.animate(keyframes, options);
-  },
-
   async showSolves() {
     this.solves = await CTFd.pages.challenge.loadSolves(this.id);
     this.solves.forEach(solve => {
@@ -124,9 +126,31 @@ Alpine.data("Challenge", () => ({
     });
     new Tab(this.$el).show();
   },
-  async show(){
-    new Tab(this.$el).show()
+
+  async showSubmissions() {
+    let response = await CTFd.pages.users.userSubmissions("me", this.id);
+    this.submissions = response.data;
+    this.submissions.forEach(s => {
+      s.date = dayjs(s.date).format("MMMM Do, h:mm:ss A");
+      return s;
+    });
+    new Tab(this.$el).show();
   },
+
+  getSolutionId() {
+    let data = Alpine.store("challenge").data;
+    return data.solution_id;
+  },
+
+  async showSolution() {
+    let solution_id = this.getSolutionId();
+    CTFd._functions.challenge.displaySolution = solution => {
+      this.solution = solution.html;
+      new Tab(this.$el).show();
+    };
+    await CTFd.pages.challenge.displaySolution(solution_id);
+  },
+
   getNextId() {
     let data = Alpine.store("challenge").data;
     return data.next_id;
@@ -145,15 +169,40 @@ Alpine.data("Challenge", () => ({
           this.$dispatch("load-challenge", this.getNextId());
         });
       },
-      { once: true }
+      { once: true },
     );
     modal.hide();
+  },
+
+  async getShareUrl() {
+    let body = {
+      type: "solve",
+      challenge_id: this.id,
+    };
+    const response = await CTFd.fetch("/api/v1/shares", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+    const data = await response.json();
+    const url = data["data"]["url"];
+    this.share_url = url;
+  },
+
+  copyShareUrl() {
+    navigator.clipboard.writeText(this.share_url);
+    let t = Tooltip.getOrCreateInstance(this.$el);
+    t.enable();
+    t.show();
+    setTimeout(() => {
+      t.hide();
+      t.disable();
+    }, 2000);
   },
 
   async submitChallenge() {
     this.response = await CTFd.pages.challenge.submitChallenge(
       this.id,
-      this.submission
+      this.submission,
     );
 
     await this.renderSubmissionResponse();
@@ -164,8 +213,31 @@ Alpine.data("Challenge", () => ({
       this.submission = "";
     }
 
+    // Increment attempts counter
+    if (
+      this.max_attempts > 0 &&
+      this.response.data.status != "already_solved" &&
+      this.response.data.status != "ratelimited"
+    ) {
+      this.attempts += 1;
+    }
+
     // Dispatch load-challenges event to call loadChallenges in the ChallengeBoard
     this.$dispatch("load-challenges");
+  },
+
+  async submitRating() {
+    const response = await CTFd.pages.challenge.submitRating(
+      this.id,
+      this.selectedRating,
+      this.ratingReview,
+    );
+    if (response.value) {
+      this.ratingValue = this.selectedRating;
+      this.ratingSubmitted = true;
+    } else {
+      alert("Error submitting rating");
+    }
   },
 }));
 
@@ -218,7 +290,7 @@ Alpine.data("ChallengeBoard", () => ({
   getChallenges(category) {
     let challenges = this.challenges;
 
-    if (category) {
+    if (category !== null) {
       challenges = this.challenges.filter(challenge => challenge.category === category);
     }
 
@@ -257,7 +329,7 @@ Alpine.data("ChallengeBoard", () => ({
             // Remove location hash
             history.replaceState(null, null, " ");
           },
-          { once: true }
+          { once: true },
         );
         modal.show();
         history.replaceState(null, null, `#${challenge.data.name}-${challengeId}`);
