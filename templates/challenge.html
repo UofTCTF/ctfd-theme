@@ -6,7 +6,7 @@
           <span class="fa fa-play"></span>
         </div>
         <div class="d-block justify-content-center">
-          <p>Challenge Info</p>
+          <p class="modal-text">Challenge Info</p>
         </div>
       </div>
       <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -27,20 +27,23 @@
 
 
             <div class="">
-              <h2 class="challenge-name text-center pt-3">{{ challenge.name }}</h2>
-              <h4 class="challenge-value text-center">
-                {{ challenge.value }} points
-              </h4>
-              <h4 class="text-center">
-                {{ ngettext("%(num)d solve", "%(num)d solves", solves) }}
-              </h4>
+              <div class=""custom-challenge-header>
+                <h2 class="challenge-name pt-3 text-center">{{ challenge.name }}</h2>
+                <h4 class="text-center challenge-value">
+                  {{ challenge.value }} points
+                </h4>
+                <h4 class="text-center">
+                  {{ ngettext("%(num)d solve", "%(num)d solves", solves) }}
+                </h4>
+              </div>
+
               <div id="challenge-description" class="d-flex gap-2">
                 <h3>Description</h3>
               </div>
               <hr>
               <span class="challenge-desc">{% block description %}{{ challenge.html }}{% endblock %}</span>
 
-              {% if challenge.connection_info or challenge.connection_format %}
+              {% if challenge.connection_info or challenge.connection_format or challenge.type=='kubectf'%}
               <div id="challenge-connection-info" class="d-flex gap-2">
                 <h3>Connection Info</h3>
               </div>
@@ -128,6 +131,10 @@
             </div>
           </div>
 
+          <div id="challenge-solves" class="d-flex gap-2">
+            <h3>Solves</h3>
+          </div>
+          <hr>
           <div role="tabpanel" class="" id="solves">
             <div class="row">
               <div class="col-md-12">
