@@ -1,31 +1,28 @@
-<div :class="getStyles()" class="modal-dialog modal-xl modal-dialog-scrollable" role="document" x-data="Challenge" x-init="id = {{ challenge.id }}; await showSolves()">
+<div :class="getStyles()" class="modal-dialog modal-xl modal-dialog-scrollable" role="document" x-data="Challenge" x-init="id = {{ challenge.id }}; ">
   <div class="modal-content">
-    <div class="modal-header">
-      <div class="d-flex justify-content-center gap-1">
-        <div class="d-block justify-content-center">
-          <span class="fa fa-play"></span>
-        </div>
-        <div class="d-block justify-content-center">
-          <p class="modal-text">Challenge Info</p>
-        </div>
-      </div>
-      <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="custom-modal-header gap-2">
+      <ul class="nav nav-tabs w-100 custom-ul-nav-tabs-override">
+        <li class="nav-item">
+          <button class="active custom-challenge-button" id="challenge-tab" data-bs-toggle="tab" data-bs-target="#challenge" role="tab" @click="showChallenge()">
+            <span class="fa fa-play"></span> Challenge Info
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="custom-solves-button" id="solves-tab" data-bs-toggle="tab" data-bs-target="#solves" role="tab" @click="showSolves()">
+            <span class="fa fa-user"></span> Solves
+          </button>
+        </li>
+        <li class="ms-auto">
+          <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+        </li>
+      </ul>
     </div>
-    <div  class="modal-body py-4 px-4 px-sm-5">
-
-
-      <div>
-        <style>
-            .challenge-title{
-                background: linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)), url({{ url_for('views.files', path=Configs.ctf_logo) }}) no-repeat;
-                background-size: cover;
-                background-position: center;
-            }
-        </style>
-        <div class="tab-content">
+    <div class="tab-content"> 
+      <div role="tabpanel" class="tab-pane fade show active" id="challenge">
+        <div  class="modal-body py-4 px-4 px-sm-5">
+          <div>
+        <div class="">
           <div class="row">
-
-
             <div class="">
               <div class=""custom-challenge-header>
                 <h2 class="challenge-name pt-3 text-center">{{ challenge.name }}</h2>
@@ -131,44 +128,11 @@
             </div>
           </div>
 
-          <div id="challenge-solves" class="d-flex gap-2">
-            <h3>Solves</h3>
-          </div>
-          <hr>
-          <div role="tabpanel" class="" id="solves">
-            <div class="row">
-              <div class="col-md-12">
-                <table class="table">
-                  <thead>
-                  <tr>
-                    <td>
-                      <b>{% trans %}Name{% endtrans %}</b>
-                    </td>
-                    <td>
-                      <b>{% trans %}Date{% endtrans %}</b>
-                    </td>
-                  </tr>
-                  </thead>
-                  <tbody id="challenge-solves-names">
-                  <template x-for="solve in solves">
-                    <tr>
-                      <td>
-                        <a :href="solve.account_url" x-text="solve.name"></a>
-                      </td>
-                      <td x-text="solve.date"></td>
-                    </tr>
-                  </template>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
-    <div class="modal-footer w-100">
-      <div class="d-flex flex-row gap-2">
-        <div class="w-100">
+    <div class="custom-modal-footer w-100 d-flex flex-row gap-2">
+        <div class="custom-challenge-id">
           {% block input %}
           <input
             id="challenge-id" class="challenge-id" type="hidden"
@@ -197,6 +161,37 @@
           {% endblock %}
         </div>
 
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="solves">
+        <div  class="modal-body py-4 px-4 px-sm-5">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <td>
+                    <b>{% trans %}Name{% endtrans %}</b>
+                  </td>
+                  <td>
+                    <b>{% trans %}Date{% endtrans %}</b>
+                  </td>
+                </tr>
+              </thead>
+              <tbody id="challenge-solves-names">
+                <template x-for="solve in solves">
+                  <tr>
+                    <td>
+                      <a :href="solve.account_url" x-text="solve.name"></a>
+                    </td>
+                    <td x-text="solve.date"></td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   </div>

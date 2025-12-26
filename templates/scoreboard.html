@@ -23,7 +23,9 @@
           <nav class="nav nav-fill custom-scoreboard-board-brackets">
             <button :class="{'nav-link': true, 'active': !activeBracket, 'custom-button': true}" @click="activeBracket=null">{% trans %}Open{% endtrans %}</button>
             <template x-for="bracket in brackets">
-              <button :class="{'nav-link': true, 'active': activeBracket == bracket.id, 'custom-button': true}" x-text="bracket.name" @click="activeBracket=bracket.id"></button>
+              <template x-if="bracket.name !== 'Open'">
+                <button :class="{'nav-link': true, 'active': activeBracket == bracket.id, 'custom-button': true}" x-text="bracket.name" @click="activeBracket=bracket.id"></button>
+              </template>
             </template>
           </nav>
         </div>

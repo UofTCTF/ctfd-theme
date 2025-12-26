@@ -11,8 +11,8 @@
 }
 
 .custom-category-challenge-box {
-  background-color: rgba(20, 20, 20, 0.8);
-  border-radius: 1rem;
+  background-color: rgba(24, 25, 29, 0.9);
+  border-radius: 0.2rem;
   padding: 2rem;
   display: flex;
   flex-direction: row;
@@ -31,21 +31,16 @@
   align-self: flex-start; 
   @media only screen and (max-width: 784px) {
     align-self: center; 
+    justify-content: center; 
     margin-right: 0;
   }
 }
 
 .custom-category-challenge-button {
-  width: 15vw;
-  
-  @media only screen and (min-width : 1200px ) and (max-width: 1500px) {
-    width: 18vw;
-  }
-  @media only screen and (max-width : 1200px ) {
-    width: 22vw;
-  }
+  width: 12rem;
+
   @media only screen and (max-width: 784px) {
-    width: 50vw;
+    width: 40vw;
   }
 }
 
@@ -82,12 +77,15 @@
 .custom-challenges-row {
   display: grid;
   gap: 2rem;
-  grid-template-columns: repeat(4, minmax(0, 2fr));
+  grid-template-columns: repeat(5, minmax(0, 2fr));
   
-  @media only screen and (min-width : 1200px ) and (max-width: 1500px) {
+  @media only screen and (min-width : 1300px ) and (max-width: 1650px) {
+    grid-template-columns: repeat(4, minmax(0, 2fr));
+  }
+  @media only screen and (min-width : 900px) and (max-width : 1300px ) {
     grid-template-columns: repeat(3, minmax(0, 2fr));
   }
-  @media only screen and (max-width : 1200px ) {
+  @media only screen and (min-width :  784px) and (max-width : 900px ) {
     grid-template-columns: repeat(2, minmax(0, 2fr));
   }
   @media only screen and (max-width: 784px) {
