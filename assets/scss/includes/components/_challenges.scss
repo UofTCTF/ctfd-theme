@@ -82,10 +82,10 @@
   @media only screen and (min-width : 1300px ) and (max-width: 1650px) {
     grid-template-columns: repeat(4, minmax(0, 2fr));
   }
-  @media only screen and (min-width : 900px) and (max-width : 1300px ) {
+  @media only screen and (min-width : 1000px) and (max-width : 1300px ) {
     grid-template-columns: repeat(3, minmax(0, 2fr));
   }
-  @media only screen and (min-width :  784px) and (max-width : 900px ) {
+  @media only screen and (min-width :  784px) and (max-width : 1000px ) {
     grid-template-columns: repeat(2, minmax(0, 2fr));
   }
   @media only screen and (max-width: 784px) {
