@@ -6,6 +6,8 @@ import CTFd from "./index";
 import { Modal, Tab, Tooltip } from "bootstrap";
 import highlight from "./theme/highlight";
 
+console.log("first print")
+
 function addTargetBlank(html) {
   let dom = new DOMParser();
   let view = dom.parseFromString(html, "text/html");

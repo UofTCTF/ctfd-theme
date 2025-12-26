@@ -131,7 +131,9 @@
         </div>
       </div>
     </div>
-    <div class="custom-modal-footer w-100 d-flex flex-row gap-2">
+    <div class="custom-modal-footer d-flex flex-column">
+      <div class="d-flex flex-row w-100 gap-2 justify-content-center">
+
         <div class="custom-challenge-id">
           {% block input %}
           <input
@@ -160,8 +162,29 @@
           </button>
           {% endblock %}
         </div>
-
         </div>
+        <div class="row notification-row">
+          <div class="col-12">
+            <template x-if="response">
+              {# This alert is re-used for all alerts, so it's important not to make it dismissible #}
+              <div class="alert text-center w-100 mt-3"
+                  :class="{
+                    'alert-success': response.data.status == 'correct',
+                    'alert-info': response.data.status == 'already_solved',
+                    'alert-danger': response.data.status == 'incorrect',
+                    'alert-warning': response.data.status == 'paused',
+                  }" role="alert"
+              >
+                <strong x-text="response.data.message"></strong>
+                <div x-show="(response.data.status == 'correct' || response.data.status == 'already_solved')">
+
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+
       </div>
       <div role="tabpanel" class="tab-pane fade" id="solves">
         <div  class="modal-body py-4 px-4 px-sm-5">
