@@ -92,3 +92,10 @@
     grid-template-columns: repeat(1, minmax(0, 2fr));
   }
 }
+
+.custom-challenge-button-text{
+  text-wrap: auto;
+  height: 3rem;
+  align-content: center;
+
+}
